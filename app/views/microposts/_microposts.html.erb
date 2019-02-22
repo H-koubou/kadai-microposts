@@ -1,0 +1,28 @@
+<ul class="media-list">
+  <% microposts.each do |micropost| %>
+    <li class="media">
+      <div class="media-left">
+        <img class="media-object img-rounded" src="<%= gravatar_url(micropost.user, options = { size: 50 }) %>" alt="">
+      </div>
+      <div class="media-body">
+        <div>
+          <%= link_to micropost.user.name, user_path(micropost.user) %> <span class="text-muted">posted at <%= micropost.created_at %></span>
+        </div>
+        <div>
+          <p><%= micropost.content %></p>
+        </div>
+        <div>
+          <% if current_user == micropost.user %>
+            <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-xs' %>
+          <% end %>
+          <% if current_user.liked?(micropost) %>
+            <%= link_to "Like Delete", like_path(micropost.id), method: :delete, class: 'btn btn-danger btn-xs' %>
+          <% else %>
+            <%= link_to "Like", likes_path(micropost_id: micropost.id), method: :post, class: 'btn btn-primary btn-xs' %>
+          <% end %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate microposts %>
+</ul>
